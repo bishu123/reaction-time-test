@@ -1,0 +1,246 @@
+:root {
+  --font-family: 'Inter', sans-serif;
+  --bg-color: #111827;
+  /* Dark elegant background */
+  --text-color: #f3f4f6;
+  --text-secondary: #9ca3af;
+
+  /* State Colors */
+  --color-start: #2563eb;
+  /* Blue */
+  --color-wait: #dc2626;
+  /* Red */
+  --color-go: #10b981;
+  /* Emerald Green */
+  --color-result: #2563eb;
+  /* Blue */
+  --color-early: #f59e0b;
+  /* Amber/Orange */
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  /* Prevent text selection during fast clicks */
+  -webkit-user-select: none;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+}
+
+#game-area {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  padding: 2rem;
+  text-align: center;
+}
+
+/* Glassmorphism content card */
+.content {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 3rem 4rem;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  max-width: 600px;
+  width: 100%;
+  pointer-events: none;
+  /* Let clicks pass through to the game-area */
+  transition: all 0.3s ease;
+}
+
+/* Typography */
+h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+p {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.instruction {
+  margin-top: 2rem;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.7;
+}
+
+.big-score {
+  font-size: 5rem;
+  font-weight: 800;
+  display: block;
+  margin: 1rem 0;
+  color: #fff;
+}
+
+.icon {
+  font-size: 4rem;
+  display: block;
+  margin-bottom: 1.5rem;
+  filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.2));
+}
+
+/* States */
+.state-start {
+  background-color: var(--bg-color);
+}
+
+.state-start .content {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.state-wait {
+  background-color: var(--color-wait);
+}
+
+.state-wait .content {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.state-go {
+  background-color: var(--color-go);
+}
+
+.state-go .content {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.state-result {
+  background-color: var(--color-result);
+}
+
+.state-early {
+  background-color: var(--color-early);
+}
+
+/* Animation classes */
+.shake {
+  animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+}
+
+@keyframes shake {
+
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+@media (max-width: 640px) {
+  h1 {
+    font-size: 2rem;
+  }
+
+  .content {
+    padding: 2rem;
+  }
+}
+
+/* Scoreboard */
+.scoreboard {
+  margin: 2rem 0;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: opacity 0.3s ease;
+}
+
+.scoreboard.hidden {
+  display: none;
+}
+
+.scoreboard h3 {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #9ca3af;
+  margin-bottom: 1rem;
+}
+
+#score-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+#score-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  font-weight: 600;
+  font-family: monospace;
+  font-size: 1.1rem;
+}
+
+#score-list li:first-child {
+  background: rgba(16, 185, 129, 0.2);
+  /* Green tint for #1 */
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.new-best {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+  }
+
+  70% {
+    box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
